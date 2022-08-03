@@ -9,22 +9,45 @@ namespace Notebook
 {
     internal class PhoneBookManagement
     {
-        
+
         public static List<Subscriber> ReadBook()
         {
-            string? path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            string[] readLine = File.ReadAllLines(path + "/phonebook.txt");
-            List<Subscriber> sub = new List<Subscriber>(readLine.Length);
-            for (int i = 0; i < readLine.Length; i++)
+            SingleFile instance = SingleFile.Instance;
+            using (StreamReader sr = new StreamReader(SingleFile.Instance.myFileStream))
             {
-                string[] units = readLine[i].Split(' ');
-                var subscriber = new Subscriber(units);
-                sub.Add(subscriber);
+                string readLine = sr.ReadToEnd();
+                readLine = readLine.Replace("\n", "");
+               List<Subscriber> sub = new List<Subscriber>(readLine.Length);
+                char[] delimiterChars = { ' ', '\n', '\r' };
+                string[] units = readLine.Split(delimiterChars);
+                for (int i = 0; i < units.Length; i=i+2)
+                {
+                    var subscriber = new Subscriber(units[i], units[i+1]);
+                    sub.Add(subscriber);
+                }
+                //sr.Close();
+                //SingleFile.Instance.myFileStream.Close();
+                return sub;
             }
-            return sub;
+
+
         }
+
+        public static void WriteInBook(List<Subscriber> sub)
+        {
+            //SingleFile instance = SingleFile.Instance;
+            using (StreamWriter fileWrite = new StreamWriter(SingleFile.Instance.myFileStream, System.Text.Encoding.Default))
+            {
+                for (int i = 0; i < sub.Count; i++)
+                {
+                    string writeLine = sub[i].Name + " " + sub[i].PhoneNumber;
+                    fileWrite.WriteLine(writeLine);
+                }
+            }
+        } 
 
 
     }
+
+
 }

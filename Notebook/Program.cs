@@ -21,6 +21,8 @@ namespace Notebook
             Console.WriteLine("---------------------------");
             SubscriberBook.ShowAllSubscriber(sub);
 
+            PhoneBookManagement.WriteInBook(sub);
+
 
             //StreamWriter str = new StreamWriter(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             //Console.WriteLine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
@@ -30,13 +32,6 @@ namespace Notebook
             //}
             //str.Close();
 
-
-            //Subscriber[] Input = new Subscriber(File.ReadAllText(path));
-            //Читаем из файла информацию
-            //while ((Input = ReadFile.ReadLine()) != null)
-            //{
-            //    Console.WriteLine(Input);
-            //}
         }
     }
 }
