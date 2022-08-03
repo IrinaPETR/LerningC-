@@ -12,8 +12,7 @@ namespace Notebook
 
         public static List<Subscriber> ReadBook()
         {
-            SingleFile instance = SingleFile.Instance;
-            using (StreamReader sr = new StreamReader(SingleFile.Instance.myFileStream))
+            using (StreamReader sr = File.OpenText(SingleFile.Instance))
             {
                 string readLine = sr.ReadToEnd();
                 readLine = readLine.Replace("\n", "");
@@ -25,18 +24,15 @@ namespace Notebook
                     var subscriber = new Subscriber(units[i], units[i+1]);
                     sub.Add(subscriber);
                 }
-                //sr.Close();
-                //SingleFile.Instance.myFileStream.Close();
                 return sub;
             }
-
 
         }
 
         public static void WriteInBook(List<Subscriber> sub)
         {
-            //SingleFile instance = SingleFile.Instance;
-            using (StreamWriter fileWrite = new StreamWriter(SingleFile.Instance.myFileStream, System.Text.Encoding.Default))
+            File.WriteAllText(SingleFile.Instance, string.Empty);
+            using (StreamWriter fileWrite = File.AppendText(SingleFile.Instance))
             {
                 for (int i = 0; i < sub.Count; i++)
                 {
