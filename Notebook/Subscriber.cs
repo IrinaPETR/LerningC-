@@ -52,20 +52,5 @@ namespace Notebook
             this.PhoneNumber = data[1];
         }
 
-
-
-
-
-
-        //StreamReader reader = File.OpenText(path + "/phonebook.txt");
-        //string? line = ReadLine(path);
-
-        //Subscriber[] Input = new Subscriber(File.ReadAllText(path));
-        //Читаем из файла информацию
-        //while ((Input = ReadFile.ReadLine()) != null)
-        //{
-        //    Console.WriteLine(Input);
-        //}
-
     }
 }

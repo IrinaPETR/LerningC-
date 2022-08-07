@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Notebook
+﻿namespace Notebook
 {
     internal class PhoneBookManagement
     {
@@ -14,14 +7,12 @@ namespace Notebook
         {
             using (StreamReader sr = File.OpenText(SingleFile.Instance))
             {
-                string readLine = sr.ReadToEnd();
-                readLine = readLine.Replace("\n", "");
-               List<Subscriber> sub = new List<Subscriber>(readLine.Length);
-                char[] delimiterChars = { ' ', '\n', '\r' };
-                string[] units = readLine.Split(delimiterChars);
-                for (int i = 0; i < units.Length; i=i+2)
+                List<Subscriber> sub = new List<Subscriber>();
+                while (sr.EndOfStream == false)
                 {
-                    var subscriber = new Subscriber(units[i], units[i+1]);
+                    var subscriberLine = sr.ReadLine();
+                    var nameAndPhone = subscriberLine.Split(' ');
+                    var subscriber = new Subscriber(nameAndPhone[0], nameAndPhone[1]);
                     sub.Add(subscriber);
                 }
                 return sub;
@@ -40,8 +31,61 @@ namespace Notebook
                     fileWrite.WriteLine(writeLine);
                 }
             }
-        } 
+        }
 
+        public static List<Subscriber> RecordNewSubscriber(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Имя нового контакат:");
+            string nameSubscriber = Console.ReadLine();
+
+            Console.WriteLine($"{Environment.NewLine}Номер телефона нового контакат:");
+            string phoneNumberSubscriber = Console.ReadLine();
+
+             return sub = SubscriberBook.AddSubscriber(sub ,nameSubscriber, phoneNumberSubscriber);
+            Console.WriteLine($"{Environment.NewLine}Контакт записан.");
+        }
+
+        public static void SearchPhoneNumberSubscriber(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно найти:");
+            string nameSubscriber = Console.ReadLine();
+            Console.WriteLine($"{Environment.NewLine}Номер телефона контакта {nameSubscriber}:");
+           Console.WriteLine($"{Environment.NewLine}" + SubscriberBook.SearchNumber(sub, nameSubscriber));
+        }
+
+        public static void SearchNameSubscriber(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Введите НОМЕР ТЕЛЕФОНА контакта, который нужно найти:");
+            string phoneNumberSubscriber = Console.ReadLine();
+            Console.WriteLine($"{Environment.NewLine}Имя контака:");
+
+           Console.WriteLine(SubscriberBook.SearchName(sub, phoneNumberSubscriber));
+        }
+
+        public static void DeleteSubscriber(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно УДАЛИТЬ:");
+            string nameSubscriber = Console.ReadLine();
+
+            SubscriberBook.DeleteSubscriber(sub, nameSubscriber);
+        }
+
+        
+        public static void ShowAllPhoneBook(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Твоя книга КОНТАКТОВ:");
+            SubscriberBook.ShowAllSubscriber(sub);
+        }
+
+        public static List<Subscriber> RewritePhoneNumberSubscriber(List<Subscriber> sub)
+        {
+            Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно перезаписать:");
+            string nameSubscriber = Console.ReadLine();
+            Console.WriteLine($"{Environment.NewLine}НОВЫЙ номер телефона контакта {nameSubscriber}:");
+            string phoneNumberSubscriber = Console.ReadLine();
+            sub = SubscriberBook.RewriteSubscriber(sub, nameSubscriber, phoneNumberSubscriber);
+            return sub;
+        }
 
     }
 
