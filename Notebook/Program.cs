@@ -58,16 +58,6 @@ namespace Notebook
             }
             
             PhoneBookManagement.WriteInBook(phoneBook1);
-
-
-            //StreamWriter str = new StreamWriter(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            //Console.WriteLine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            //for (int i = 0; i < 256; i++)
-            //{
-            //    str.WriteLine(table[i]);
-            //}
-            //str.Close();
-
         }
     }
 }

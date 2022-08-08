@@ -40,12 +40,22 @@ namespace Notebook
 
         public Subscriber()
         { }
+
+        /// <summary>
+        /// Конструктор класса Subscriber
+        /// </summary>
+        /// <param name="name">Имя контакта в формате строки</param>
+        /// <param name="phoneNumber">Номер телефона контакта в формате строки</param>
         public Subscriber(string name, string phoneNumber)
         {
             this.Name = name;
             this.PhoneNumber = phoneNumber;
         }
 
+        /// <summary>
+        /// Конструктор класса Subscriber
+        /// </summary>
+        /// <param name="data">Массив типа стринг, содержащий данные контактов в формате: "имя"+"пробел"+"номер телефона"[Конец строки]</param>
         public Subscriber(string[] data)
         {
             this.Name = data[0];

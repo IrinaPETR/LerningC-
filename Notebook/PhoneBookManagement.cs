@@ -2,7 +2,10 @@
 {
     internal class PhoneBookManagement
     {
-
+        /// <summary>
+        /// Чтение контактов телефонной книги из локального файла.
+        /// </summary>
+        /// <returns>Динамический массив типа Subscriber, который состоит из контактов телефоннйо книги</returns>
         public static List<Subscriber> ReadBook()
         {
             using (StreamReader sr = File.OpenText(SingleFile.Instance))
@@ -19,7 +22,10 @@
             }
 
         }
-
+        /// <summary>
+        /// Запись телефонной книги в локальный файл, с удалением предыдущих записей.
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, который будет записан в файл</param>
         public static void WriteInBook(List<Subscriber> sub)
         {
             File.WriteAllText(SingleFile.Instance, string.Empty);
@@ -32,7 +38,11 @@
                 }
             }
         }
-
+        /// <summary>
+        /// Запись нового контакта типа Subscriber в динамический массив
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в который нужно добавить новый контакт</param>
+        /// <returns>Динамический массив типа Subscriber после добавления нового контакта</returns>
         public static List<Subscriber> RecordNewSubscriber(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Имя нового контакат:");
@@ -45,6 +55,10 @@
             Console.WriteLine($"{Environment.NewLine}Контакт записан.");
         }
 
+        /// <summary>
+        /// Поиск номера телефона контакта в записной книге по известному имени
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться поиск</param>
         public static void SearchPhoneNumberSubscriber(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно найти:");
@@ -53,6 +67,10 @@
            Console.WriteLine($"{Environment.NewLine}" + SubscriberBook.SearchNumber(sub, nameSubscriber));
         }
 
+        /// <summary>
+        /// Поиск имени контакта в записной книге по известному номеру телефона
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться поиск</param>
         public static void SearchNameSubscriber(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Введите НОМЕР ТЕЛЕФОНА контакта, который нужно найти:");
@@ -62,6 +80,10 @@
            Console.WriteLine(SubscriberBook.SearchName(sub, phoneNumberSubscriber));
         }
 
+        /// <summary>
+        /// Удаление контакта из телефонной книги по его имени 
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, из которого будет удалён контакт</param>
         public static void DeleteSubscriber(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно УДАЛИТЬ:");
@@ -70,13 +92,21 @@
             SubscriberBook.DeleteSubscriber(sub, nameSubscriber);
         }
 
-        
+        /// <summary>
+        /// Выводит на экран все контакты телефонной книги
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, который будет выведен на экран</param>
         public static void ShowAllPhoneBook(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Твоя книга КОНТАКТОВ:");
             SubscriberBook.ShowAllSubscriber(sub);
         }
 
+        /// <summary>
+        /// Перезаписывает номер телефона контакта в телефонной книге по известному имени контакта
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться перезапись контакта</param>
+        /// <returns>Динамический массив типа Subscriber после перезаписи контакта</returns>
         public static List<Subscriber> RewritePhoneNumberSubscriber(List<Subscriber> sub)
         {
             Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно перезаписать:");

@@ -8,6 +8,12 @@ namespace Notebook
 {
     internal class SubscriberBook
     {
+        /// <summary>
+        /// Поиск номера телефона контакта по известному имени
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться поиск контакта</param>
+        /// <param name="name">Имя контакта, номер телефона которого нужно найти</param>
+        /// <returns>Строка, содержащая номер телефона искомого контакта</returns>
         public static string SearchNumber(List<Subscriber> sub, string name)
         {
             for (int i = 0; i < sub.Count; i++)
@@ -19,6 +25,12 @@ namespace Notebook
             return $"Контакт с именем {name} не найден";
         }
 
+        /// <summary>
+        /// Поиск имени контакта по известному номеру телефона
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться поиск контакта</param>
+        /// <param name="number">Номер телефона контакта, имя которого нужно найти</param>
+        /// <returns>Строка, содержащая имя искомого контакта</returns>
         public static string SearchName(List<Subscriber> sub, string number)
         {
             for (int i = 0; i < sub.Count; i++)
@@ -29,6 +41,12 @@ namespace Notebook
             return $"Контакт с номером {number} не найден";
         }
 
+        /// <summary>
+        /// Удаляет контакт в динамическом массиве типа Subscriber по известному имени
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, из которого будет удалён контакт</param>
+        /// <param name="name">Имя контакта, который нужно удалить</param>
+        /// <returns>Динамический массив типа Subscriber, после удаления контакта</returns>
         public static List<Subscriber> DeleteSubscriber(List<Subscriber> sub, string name)
         {
             for (int i = 0; i < sub.Count; i++)
@@ -46,6 +64,13 @@ namespace Notebook
 
         }
 
+        /// <summary>
+        /// Добавляет новый контакт в динамический массив типа Subscriber
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет добавлен новый контакт</param>
+        /// <param name="name">Имя нового контакта</param>
+        /// <param name="number">Номер телефона нового контакта</param>
+        /// <returns>Динамический массив типа Subscriber после добавления нового контакта</returns>
         public static List<Subscriber> AddSubscriber(List<Subscriber> sub, string name, string number)
         {
             for (int i = 0; i < sub.Count; i++)
@@ -69,7 +94,13 @@ namespace Notebook
             return sub;
         }
 
-
+        /// <summary>
+        /// Перезаписывает контакт в телефонной книге
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, в котором будет производиться перезапись контакта</param>
+        /// <param name="name">Имя существующего контакта</param>
+        /// <param name="number">Новый номер телефона для контакта</param>
+        /// <returns>Динамический массив типа Subscriber после перезаписи контакта</returns>
         public static List<Subscriber> RewriteSubscriber(List<Subscriber> sub, string name, string number)
         {
             for (int i = 0; i < sub.Count; i++)
@@ -93,7 +124,10 @@ namespace Notebook
             return sub;
         }
 
-
+        /// <summary>
+        /// Вывод всех контактов телефонной книги на экран
+        /// </summary>
+        /// <param name="sub">Динамический массив типа Subscriber, который нужно вывести на экран</param>
         public static void ShowAllSubscriber(List<Subscriber> sub)
         {
             foreach (var subscriber in sub)
