@@ -9,22 +9,19 @@ namespace dynamic_array_List
     internal class MyList<T>
     {
         private T[] unit;
-        public int Count { get; set; }
 
         public int index = 0;
 
         private int size = 0;
-        public int Size
+        public int Count
         {
             get
             {
-                return size;
+                return this.size;
             }
-            set
-            {
-                size = value;
-            }
+            set { }
         }
+
 
         public MyList()
         {
@@ -47,7 +44,7 @@ namespace dynamic_array_List
             T[] newUnit = new T[this.size];
             Array.ConstrainedCopy(this.unit, 0, newUnit, 0, i);
             Array.ConstrainedCopy(this.unit, i+1, newUnit, i, this.size-(i+1));
-            Array.Resize<T>(ref newUnit, Size - 1);
+            Array.Resize<T>(ref newUnit, this.size - 1);
             this.unit = newUnit;
             this.index = this.index - 1;
             this.size = this.size - 1;
