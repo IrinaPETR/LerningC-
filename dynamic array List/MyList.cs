@@ -39,7 +39,7 @@ namespace dynamic_array_List
             this.index++;
         }
 
-        public void Delete(int i)
+        public void DeleteByIndex(int i)
         {
             T[] newUnit = new T[this.size];
             Array.ConstrainedCopy(this.unit, 0, newUnit, 0, i);
@@ -49,5 +49,21 @@ namespace dynamic_array_List
             this.index = this.index - 1;
             this.size = this.size - 1;
         }
+
+        public void DeleteIfExist(T obj)
+        {
+            for (int i = 0; i < this.size; i++)
+            {
+                if (Equals(this.unit[i], obj)) DeleteByIndex(i);
+            }
+        }
+
+        //public T? Find(Predicate<T> match)
+        //{
+        //     for(int i=0; i < this.size; i++)
+        //    {
+        //        if(match.Equals())
+        //    }
+        //}
     }
 }

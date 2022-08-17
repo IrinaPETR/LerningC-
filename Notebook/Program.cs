@@ -47,6 +47,10 @@ namespace Notebook
                         break;
                 }
 
+                var sub2 = new Subscriber("Ирина", "89821191164");
+                Console.WriteLine(phoneBook1[10].Equals(sub2));
+                
+                
                 Console.WriteLine($"{Environment.NewLine}Если хотите закрыть телефонну книгу и сохранить изменения, то нажмите - 9;{Environment.NewLine}");
                 Console.WriteLine($"Если хотите продолжить работу с телефонной книгой, то нажмите - 0;{Environment.NewLine}");
 
@@ -58,6 +62,11 @@ namespace Notebook
             }
             
             PhoneBookManagement.WriteInBook(phoneBook1);
+
+
+
+
+
         }
     }
 }

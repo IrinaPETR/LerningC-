@@ -62,5 +62,18 @@ namespace Notebook
             this.PhoneNumber = data[1];
         }
 
+        public override bool Equals(Object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                Subscriber sub = (Subscriber)obj;
+                return (this.Name == sub.Name) && (this.PhoneNumber == sub.PhoneNumber);
+            }
+        }
+
     }
 }
