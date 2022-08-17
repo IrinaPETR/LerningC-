@@ -1,0 +1,6 @@
+obj
+*.vs
+*.csproj
+*.pptx
+*.pdf
+phonebook.txt
