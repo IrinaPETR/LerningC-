@@ -6,6 +6,7 @@ namespace Notebook
     {
         static void Main(string[] args)
         {
+            PhoneBookManagement.ManageNotify += Console.WriteLine;
             List<Subscriber> phoneBook1 = PhoneBookManagement.ReadBook();
             bool closePhoneBook = false;
 
@@ -29,6 +30,7 @@ namespace Notebook
                 {
                     case 1:
                         phoneBook1 = PhoneBookManagement.RecordNewSubscriber(phoneBook1);
+
                         break;
                     case 2:
                         PhoneBookManagement.SearchPhoneNumberSubscriber(phoneBook1);
@@ -60,12 +62,8 @@ namespace Notebook
                 
                 Console.Clear();
             }
-            
+
             PhoneBookManagement.WriteInBook(phoneBook1);
-
-
-
-
 
         }
     }

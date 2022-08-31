@@ -8,6 +8,10 @@ namespace Notebook
 {
     internal class SubscriberBook
     {
+        //public delegate void SubscriberHandler(SubscriberEvent e);
+        public delegate void SubscriberHandler(string message);
+        public static event SubscriberHandler? Notify;
+
         /// <summary>
         /// Поиск номера телефона контакта по известному имени
         /// </summary>
@@ -54,9 +58,8 @@ namespace Notebook
                 if (sub[i].Name == name)
                 {
                     sub.RemoveAt(i);
-                    Console.WriteLine($"{Environment.NewLine}Контакт {name} УДАЛЁН!");
+                    Notify?.Invoke($"{Environment.NewLine}Контакт {name} УДАЛЁН!");
                     return sub;
-                    break;
                 }
             }
             Console.WriteLine($"{Environment.NewLine}Контакт с именем {name} не найден");
@@ -91,7 +94,11 @@ namespace Notebook
             }
 
             sub.Add(new Subscriber(name, number));
+
+            Notify?.Invoke($"{Environment.NewLine}Был записан контакт: {Environment.NewLine} Имя - {name}. Номер - {number}");
+            //Notify?.Invoke(new SubscriberEvent($"{Environment.NewLine}Был записан контакт: {Environment.NewLine} Имя - {name}. Номер - {number}"));
             return sub;
+            Console.WriteLine("Строчка после return. ТЫ ЧТОООО СРАБОТАЛААА????");
         }
 
         /// <summary>

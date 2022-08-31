@@ -2,6 +2,9 @@
 {
     internal class PhoneBookManagement
     {
+        public delegate void ManagementHandler(string message);
+        public static event ManagementHandler? ManageNotify;
+
         /// <summary>
         /// Чтение контактов телефонной книги из локального файла.
         /// </summary>
@@ -18,6 +21,7 @@
                     var subscriber = new Subscriber(nameAndPhone[0], nameAndPhone[1]);
                     sub.Add(subscriber);
                 }
+                ManageNotify?.Invoke($"Произведено чтение контактов телефонной книги из локального файла.{Environment.NewLine}");
                 return sub;
             }
 
@@ -37,6 +41,7 @@
                     fileWrite.WriteLine(writeLine);
                 }
             }
+            ManageNotify?.Invoke($"{Environment.NewLine}Произведена запись контактов телефонной книги в локальный файл");
         }
         /// <summary>
         /// Запись нового контакта типа Subscriber в динамический массив
@@ -51,8 +56,12 @@
             Console.WriteLine($"{Environment.NewLine}Номер телефона нового контакат:");
             string phoneNumberSubscriber = Console.ReadLine();
 
-             return sub = SubscriberBook.AddSubscriber(sub ,nameSubscriber, phoneNumberSubscriber);
-            Console.WriteLine($"{Environment.NewLine}Контакт записан.");
+            Console.BackgroundColor = ConsoleColor.Green;
+            SubscriberBook.Notify += Console.WriteLine;
+            sub = SubscriberBook.AddSubscriber(sub, nameSubscriber, phoneNumberSubscriber);
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            return sub;
         }
 
         /// <summary>
@@ -89,7 +98,10 @@
             Console.WriteLine($"{Environment.NewLine}Введите ИМЯ КОНТАКТА, который нужно УДАЛИТЬ:");
             string nameSubscriber = Console.ReadLine();
 
+            Console.BackgroundColor = ConsoleColor.Red;
+            SubscriberBook.Notify += Console.WriteLine;
             SubscriberBook.DeleteSubscriber(sub, nameSubscriber);
+            Console.BackgroundColor = ConsoleColor.Black;
         }
 
         /// <summary>
