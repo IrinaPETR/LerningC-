@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dynamic array List", "dynam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningAbstractClassAnimal", "LearningAbstractClassAnimal\LearningAbstractClassAnimal.csproj", "{12427B22-72FC-4D70-BF8C-42325B1020C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationException", "GenerationException\GenerationException.csproj", "{76BA4027-3DA5-4185-9073-B1536F2E2C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerationException", "GenerationException\GenerationException.csproj", "{76BA4027-3DA5-4185-9073-B1536F2E2C9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tamagotchi Game", "Tamagotchi Game\Tamagotchi Game.csproj", "{64FB06BA-377F-4AE7-8389-D5190B58EDA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TamagotchiGameWindowsForms", "TamagotchiGameWindowsForms\TamagotchiGameWindowsForms.csproj", "{EADC9502-339C-4A69-93B9-590240024DBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotTelegram", "BotTelegram\BotTelegram.csproj", "{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EADC9502-339C-4A69-93B9-590240024DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EADC9502-339C-4A69-93B9-590240024DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EADC9502-339C-4A69-93B9-590240024DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EADC9502-339C-4A69-93B9-590240024DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
