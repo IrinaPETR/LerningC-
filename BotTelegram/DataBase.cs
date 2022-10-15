@@ -13,16 +13,16 @@ namespace BotTelegram
 {
     internal class DataBase
     {
+        static NpgsqlConnection con = null;
         public static void TestConnection()
         {
-            using (NpgsqlConnection con = GetConnection())
+            using (con = GetConnection())
             {
                 con.Open();
                 if(con.State == ConnectionState.Open)
                 {
                     Console.WriteLine("Подключение установлено!");
                 }
-                SeeAll(con);
             }
         }
         //static NpgsqlConnection baseConnections;
@@ -32,21 +32,31 @@ namespace BotTelegram
             return baseConnections;
         }
 
-        static public void SeeAll(NpgsqlConnection con)
-        {
+        static public List<СomponentsDataBase> SeeAll()
+         {
+            List<СomponentsDataBase> components = new List<СomponentsDataBase>();
             NpgsqlDataReader dataReader = null;
 
             try
             {
-                NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM componentsdatabase WHERE Key LIKE '101'", con);
+                NpgsqlCommand command = new NpgsqlCommand("SELECT * FROM componentsdatabase", con);
                 dataReader = command.ExecuteReader();
-                
+
+
                 while (dataReader.Read())
                 {
-                    Console.WriteLine(Convert.ToString(dataReader["Name"]) + Convert.ToString(dataReader["actionontheproduct"]));
-                     
+                    string st1 = Convert.ToString(dataReader["influenceonperson"]);
+                    string st2 = Convert.ToString(dataReader["lastname"]);
+                    var compNew = new СomponentsDataBase(
+                        Convert.ToString(dataReader["key"]), 
+                        Convert.ToString(dataReader["name"]), 
+                        Convert.ToString(dataReader["danger"]), 
+                        Convert.ToString(dataReader["actionontheproduct"]), 
+                        Convert.ToString(dataReader["influenceonperson"]), 
+                        Convert.ToString(dataReader["lastname"]));
+                    components.Add(compNew);
+                    //Console.WriteLine(Convert.ToString(dataReader["Name"]) + Convert.ToString(dataReader["actionontheproduct"]));
                 }
-                
 
             }
             catch(Exception ex)
@@ -60,6 +70,8 @@ namespace BotTelegram
                     dataReader.Close();
                 }
             }
+            return components;
+
 
         }
     }

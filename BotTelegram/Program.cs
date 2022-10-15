@@ -30,6 +30,7 @@ namespace BotTelegram
         async static Task MyUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
             var message = update.Message;
+            List<СomponentsDataBase> components;
 
             ReplyKeyboardMarkup replyKeyboardMarkup = new(new[]
             {
@@ -53,7 +54,7 @@ namespace BotTelegram
                 {
                     if (message.Text.ToLower().Contains("привет") || message.Text.ToLower().Contains("ghbdtn"))
                     {
-                        //DataBase.SeeAll();
+                        components = DataBase.SeeAll();
                         await botClient.SendTextMessageAsync(message.Chat.Id, $"Приветики");
                         return;
                     }
