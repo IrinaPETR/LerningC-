@@ -58,7 +58,7 @@ namespace BotTelegram
             }
             set
             {
-                    influenceOnPerson = value;
+                influenceOnPerson = value;
             }
         }
 
@@ -72,7 +72,7 @@ namespace BotTelegram
             }
             set
             {
-                    actionOnTheProduct = value;
+                actionOnTheProduct = value;
             }
         }
 
@@ -85,8 +85,8 @@ namespace BotTelegram
                 return lastName;
             }
             set
-            { 
-                    lastName = value;
+            {
+                lastName = value;
             }
         }
 
@@ -99,6 +99,5 @@ namespace BotTelegram
             this.InfluenceOnPerson = influenceonperson;
             this.LastName = lastname;
         }
-
     }
 }

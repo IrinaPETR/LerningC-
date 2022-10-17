@@ -13,11 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningAbstractClassAnimal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerationException", "GenerationException\GenerationException.csproj", "{76BA4027-3DA5-4185-9073-B1536F2E2C9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tamagotchi Game", "Tamagotchi Game\Tamagotchi Game.csproj", "{64FB06BA-377F-4AE7-8389-D5190B58EDA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LOPI", "..\..\FinalProject\LOPI\LOPI\LOPI.csproj", "{2EB0BE80-43C2-4816-90DF-1215A5FB705B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TamagotchiGameWindowsForms", "TamagotchiGameWindowsForms\TamagotchiGameWindowsForms.csproj", "{EADC9502-339C-4A69-93B9-590240024DBF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotTelegram", "BotTelegram\BotTelegram.csproj", "{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotTelegram", "BotTelegram\BotTelegram.csproj", "{11435FC5-0407-498D-9663-9130808D7E0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,18 +43,14 @@ Global
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76BA4027-3DA5-4185-9073-B1536F2E2C9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64FB06BA-377F-4AE7-8389-D5190B58EDA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EADC9502-339C-4A69-93B9-590240024DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EADC9502-339C-4A69-93B9-590240024DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EADC9502-339C-4A69-93B9-590240024DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EADC9502-339C-4A69-93B9-590240024DBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7BEE538-78A3-4897-9437-A2D1DADBAD8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB0BE80-43C2-4816-90DF-1215A5FB705B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB0BE80-43C2-4816-90DF-1215A5FB705B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB0BE80-43C2-4816-90DF-1215A5FB705B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB0BE80-43C2-4816-90DF-1215A5FB705B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11435FC5-0407-498D-9663-9130808D7E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11435FC5-0407-498D-9663-9130808D7E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11435FC5-0407-498D-9663-9130808D7E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11435FC5-0407-498D-9663-9130808D7E0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

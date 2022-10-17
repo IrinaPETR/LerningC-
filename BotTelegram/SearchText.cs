@@ -10,12 +10,10 @@ using Emgu.CV.Util;
 using Emgu.CV.Structure;
 using Emgu.CV.OCR;
 
-
 namespace BotTelegram
 {
-    static internal class SearchText
+    internal class SearchText
     {
-        
         //public string Search(string filePath)
         //{
         //    //string filePath = @"C:\Emgu\Photo\Photo1.jpg";
@@ -28,6 +26,5 @@ namespace BotTelegram
         //    tess.Dispose();
         //    return text;
         //}
-       
     }
 }
