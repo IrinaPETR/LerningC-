@@ -4,6 +4,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using static BotTelegram.SearchText;
 using System.Configuration;
+using Telegram.Bot.Types.Enums;
 
 using Emgu;
 using Emgu.CV;
@@ -16,6 +17,7 @@ namespace BotTelegram
     internal class Program
     {
         static List<СomponentsDataBase> components = new List<СomponentsDataBase>();
+        static List<string> notFoundComponents = new List<string>();
         static void Main(string[] args)
         {
             //Лучше тоже как обработчик события "Старт программы"
@@ -29,109 +31,69 @@ namespace BotTelegram
 
         async static Task MyUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
-            var message = update.Message;
-            InlineKeyboardMarkup inlineKeyboard = new(new[]
-                {
-                    new []
+            switch (update.Type)
+            {
+                case UpdateType.Message:
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "Хочу найти описание ингридиента", callbackData: "поиск"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData(text: "Хочу посмотреть весь список доступных ингридиентов", callbackData: "все"),
-                    },
-                });
-            await botClient.SendTextMessageAsync(
-                            chatId: message.Chat.Id,
-                            text: "Выбери действие",
-                            replyMarkup: inlineKeyboard,
-                            cancellationToken: token);
+                        var message = update.Message;
+                        if (message?.Text != null)
+                        {
+                            string text = message.Text.ToLower();
+                            Console.WriteLine($"{message.Chat.FirstName} -> {message.Text}");
+                            if (text.StartsWith("привет"))
+                            {
+                                await botClient.SendTextMessageAsync(message.Chat.Id, $"Приветик! Начни своё сообщение со слова \"найти\" для поиска ингридиента");
+                            }
+                            if (text.StartsWith("найти"))
+                            {
+                                components.Clear();
+                                notFoundComponents.Clear();
 
-            //Task findeComponentsOnName = new Task(async () =>
-            //{
-            //    await botClient.SendTextMessageAsync(message.Chat.Id, $"Отправь названия ингридиентов состава через запятую. Например: Куркумин, алканин");
-            //    var messageComponents = update.Message;
-            //    if (messageComponents != null)
-            //    {
-            //        components = DataBase.FindComponentsInBase(messageComponents.Text);
-            //        botClient.SendTextMessageAsync(messageComponents.Chat.Id, $"{components[0].ActionOnTheProduct}");
-            //        return;
-            //    }
-            //});
+                                text = text.Replace("найти", "");
+                                text = text.Replace("е-", "");
+                                text = text.Replace("ё", "е");
+                                text = text.Trim();
+                                string[] words = text.Split(new char[] { ','}, StringSplitOptions.RemoveEmptyEntries);
 
+                                
+                                foreach (string whoComponent in words)
+                                {
+                                    var withoutSpaceComponent = whoComponent.Trim();
+                                    var foundСomponentList = DataBase.FindComponentsInBase(withoutSpaceComponent);
+                                    if (foundСomponentList.Count == 0) notFoundComponents.Add(whoComponent);
+                                    components.AddRange(foundСomponentList);
+                                }
 
+                                foreach (СomponentsDataBase com in components)
+                                {
+                                    if(com.LastName != "") 
+                                        await botClient.SendTextMessageAsync(message.Chat.Id, $"E-{com.Key} или {com.Name} или {com.LastName}{Environment.NewLine}☠️Опасность: {com.Danger}{Environment.NewLine}🍉Влияние на продукт: {com.ActionOnTheProduct}{Environment.NewLine}🧔‍♀️Действие на человека: {com.InfluenceOnPerson}");
+                                    else await botClient.SendTextMessageAsync(message.Chat.Id, $"E-{com.Key} или {com.Name}{Environment.NewLine}☠️Опасность: {com.Danger}{Environment.NewLine}🍉Влияние на продукт: {com.ActionOnTheProduct}{Environment.NewLine}🧔‍♀️Действие на человека: {com.InfluenceOnPerson}");
+                                }
+                                if (notFoundComponents.Count != 0)
+                                {
+                                    string textAnswer = null;
+                                    foreach (string notFound in notFoundComponents)
+                                    {
+                                        textAnswer = textAnswer + Environment.NewLine + "❌" + notFound;
+                                    }
+                                    await botClient.SendTextMessageAsync(message.Chat.Id, $"Не найдены компоненты: {textAnswer}");
 
-            //Task HandleCallbackQuery = MyUpdate.ContinueWith((ITelegramBotClient botClient, CallbackQuery callbackQuery) =>
-            //{
-            //    if (callbackQuery.Data.Equals("поиск"))
-            //    {
-            //        await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, text: "Отправь названия ингридиентов состава через запятую. Например: Куркумин, алканин");
-            //    }
-            //});
+                                }    
+                                
+                            }
 
-            if (message != null)
-                {
-                    Console.WriteLine($"{message.Chat.FirstName} -> {message.Text}");
+                        }
+                            break;
+                    }
+                //case UpdateType.CallbackQuery:
+                //    код,выполняемый если выражение имеет значение1
+                //    break;
                 
-
-                try
-                    {
-                    async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callbackQuery)
-                    {
-                        if (callbackQuery.Data.Equals("поиск"))
-                        {
-                            await botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, text: "Отправь названия ингридиентов состава через запятую. Например: Куркумин, алканин");
-                        }
-                    }
-
-                    if (message.Text.ToLower().Contains("привет") || message.Text.ToLower().Contains("ghbdtn"))
-                        {
-                            //components = DataBase.SeeAll();
-                            await botClient.SendTextMessageAsync(message.Chat.Id, $"Приветики");
-                            return;
-                        }
-
-                        if (message.Text.ToLower().Contains("хочу найти описание ингридиента"))
-                        {
-                            message = null;
-                        findeComponentsOnName.Start();  // запускаем задачу
-
-                        findeComponentsOnName.Wait();
-                        //int result = findeComponentsOnName.Result;
-
-                        //    components = DataBase.FindComponentsInBase("куркумин");
-                        //await botClient.SendTextMessageAsync(message.Chat.Id, $"{components[0].ActionOnTheProduct}");
-                        //return;
-                    }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-
-                }
-                if (message.Photo != null)
-                {
-                    //СДЕЛАТЬ ЭТО КАК СОБЫТИЕ!!!!!
-                    var fileId = update.Message.Photo.Last().FileId;
-                    var fileInfo = await botClient.GetFileAsync(fileId);
-                    var filePath = fileInfo.FilePath;
-
-                    string destinationFilePath = $@"C:\Emgu\Photo\user\{message.From.FirstName}.png";
-                    await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-                    await botClient.DownloadFileAsync(filePath, fileStream);
-                    fileStream.Close();
-
-                    Tesseract tess = new Tesseract(@"C:\Emgu\langu", "rus", OcrEngineMode.TesseractLstmCombined);
-                    tess.SetImage(new Image<Bgr, byte>(destinationFilePath));
-                    tess.Recognize();
-                    string text = tess.GetUTF8Text();
-
-                    tess.Dispose();
-                    await botClient.SendTextMessageAsync(message.Chat.Id, $"{text}");
-                    return;
-                }
+                //default:
+                //    код, выполняемый если выражение не имеет ни одно из выше указанных значений
+                //    break;
+            }
         }
 
 

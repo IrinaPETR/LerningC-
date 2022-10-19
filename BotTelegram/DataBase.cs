@@ -75,7 +75,7 @@ namespace BotTelegram
 
             try
             {
-                NpgsqlCommand command = new NpgsqlCommand($"SELECT * FROM componentsdatabase WHERE \"name\" LIKE \'{name}\'", con);
+                NpgsqlCommand command = new NpgsqlCommand($"SELECT * FROM componentsdatabase WHERE name Like \'{name}\' or key like \'{name}\' or lastname like \'{name}\'", con);
                 dataReader = command.ExecuteReader();
 
                 while (dataReader.Read())
