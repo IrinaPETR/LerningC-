@@ -8,6 +8,7 @@ namespace BotTelegram
 {
     internal class СomponentsDataBase
     {
+        
         private string key;
         public string Key
         {
