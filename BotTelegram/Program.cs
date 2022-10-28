@@ -67,7 +67,6 @@ namespace BotTelegram
                             string text = tess.GetUTF8Text();
 
                             tess.Dispose();
-                            //await botClient.SendTextMessageAsync(message.Chat.Id, $"{text}");
                             text = text.ToLower();
                             SearchByPhoto(message, text);
 
@@ -81,7 +80,25 @@ namespace BotTelegram
                             string text = message.Text.ToLower();
                             Console.WriteLine($"{message.Chat.FirstName} -> {message.Text}");
 
-                            if (text.StartsWith("хочу фото") || text.StartsWith("фото") || text.StartsWith("фотография"))
+                            if (text.StartsWith("алгоритм"))
+                            {
+
+                                for(int i=1; i<5; i++)
+                                {
+                                    string mypath = $@"D:\Бывший рабочий\1 юный программист\Академия Цифра\AcademyCifra\FinalProject\АЛГОРИТМ\Часть{i}.png";
+                                    using (var fileStream = new FileStream(mypath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                    {
+                                        await botClient.SendPhotoAsync(
+                                            chatId: message.Chat.Id,
+                                            photo: new InputOnlineFile(fileStream)
+                                        );
+                                    }
+
+                                }
+                                
+                            }
+
+                            else if (text.StartsWith("хочу фото") || text.StartsWith("фото") || text.StartsWith("фотография"))
                             {
 
                                 string mypath = @"D:\Бывший рабочий\1 юный программист\Академия Цифра\AcademyCifra\FinalProject\Photo.jfif";
@@ -189,9 +206,6 @@ namespace BotTelegram
 
                     }
                     break; 
-
-                    //default:
-                    //    break;
             }
 
             string TextPreparation(string text)
