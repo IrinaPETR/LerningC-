@@ -68,7 +68,8 @@ namespace BotTelegram
 
                             tess.Dispose();
                             text = text.ToLower();
-                            SearchByPhoto(message, text);
+
+                            CreateAnswer.SearchByPhoto(message, text, notFoundComponents, components, userComponents, userButtons, token, botClient);
 
                             return;
                         }
@@ -128,7 +129,7 @@ namespace BotTelegram
                             }
                             else if (text.StartsWith("найти"))
                             {
-                                SearchByText(message, text);
+                                CreateAnswer.SearchByText(message, text, notFoundComponents, components, userComponents, userButtons, token, botClient);
                             }
                             else await botClient.SendTextMessageAsync(message.Chat.Id, $"🧐ххххммммм....... Я такого не знаю) Давай попробуем ещё раз! {Environment.NewLine}{Environment.NewLine}Начни своё сообщение со слова 💥\"НАЙТИ\"💥 и перечисли ингридиенты состава через запятую. {Environment.NewLine}✅Например: \"Найти азорубин, E-124\"{Environment.NewLine}{Environment.NewLine}А ещё можешь отправить 📸фотографию, я скажу, что там увидел 😉"); 
 
@@ -144,7 +145,7 @@ namespace BotTelegram
                             List<СomponentsDataBase> value = new List<СomponentsDataBase>();
                             userComponents.TryGetValue(callbackQuery.Message.Chat.FirstName, out value);
 
-                            InlineKeyboardButton[][] arrayButton = СreatingButtons(value);
+                            InlineKeyboardButton[][] arrayButton = CreateAnswer.СreatingButtons(value);
                             InlineKeyboardMarkup inlineKeyboard = new(arrayButton);
 
                             userButtons.Remove(callbackQuery.Message.Chat.FirstName); //удаляет по ключу элемент из словаря
@@ -181,7 +182,6 @@ namespace BotTelegram
                                             $"E-{com.Key} или {com.Name} или {com.LastName}{Environment.NewLine}☠️Опасность: {com.Danger}{Environment.NewLine}🍉Влияние на продукт: {com.ActionOnTheProduct}{Environment.NewLine}🧔‍♀️Действие на человека: {com.InfluenceOnPerson}",
                                             replyMarkup: inlineKeyboard,
                                             cancellationToken: token);
-
                                     }
                                     
                                     else
@@ -206,156 +206,6 @@ namespace BotTelegram
 
                     }
                     break; 
-            }
-
-            string TextPreparation(string text)
-            {
-                text = text.Replace("найти", "");
-                text = text.Replace("е-", "");
-                //text = text.Replace("е", "");
-                text = text.Replace("e-", "");
-                text = text.Replace("ё", "е");
-                text = text.Replace(")", "");
-                text = text.Replace("(", "");
-                text = text.Trim();
-                return text;
-            }
-
-            string FindInBase(Message message, string[] words)
-            {
-                for (int i = 0; i < words.Length; i++)
-                {
-                    if (words[i].StartsWith("е"))
-                    {
-                        words[i] = words[i].Replace("е", "");
-                    }
-
-                }
-                foreach (string whoComponent in words)
-                {
-                    var withoutSpaceComponent = whoComponent.Trim();
-                    var foundСomponentList = DataBase.FindComponentsInBase(withoutSpaceComponent);
-                    if (foundСomponentList.Count == 0) notFoundComponents.Add(whoComponent);
-                    components.AddRange(foundСomponentList);
-                    List<СomponentsDataBase> value = new List<СomponentsDataBase>();
-                    bool flagDouble = false;
-                    if (!(userComponents.TryGetValue(message.Chat.FirstName, out value)) && foundСomponentList.Count != 0)
-                    {
-                        userComponents.Add(message.Chat.FirstName, foundСomponentList);
-
-                    }
-                    else if (foundСomponentList.Count != 0)
-                    {
-                        foreach (СomponentsDataBase userComponent in value)
-                        {
-                            if (foundСomponentList[0].Key == userComponent.Key)
-                            {
-                                flagDouble = true;
-                            }
-
-                        }
-                        if (!flagDouble)
-                        {
-                            foundСomponentList.AddRange(value);
-                            userComponents.Remove(message.Chat.FirstName); //удаляет по ключу элемент из словаря
-                            userComponents.Add(message.Chat.FirstName, foundСomponentList);
-                        }
-
-                    }
-
-                }
-
-
-                string textMessageWithNotFoundComponents = null;
-                if (notFoundComponents.Count != 0)
-                {
-                    foreach (string notFound in notFoundComponents)
-                    {
-                        textMessageWithNotFoundComponents = textMessageWithNotFoundComponents + Environment.NewLine + "❌" + notFound;
-                    }
-                }
-                return textMessageWithNotFoundComponents;
-            }
-
-            InlineKeyboardButton[][] СreatingButtons(List<СomponentsDataBase> componentsToButton)
-            {
-
-                InlineKeyboardButton[][] arrayButton = new InlineKeyboardButton[componentsToButton.Count + 1][];
-                List<InlineKeyboardButton[]> massivButton = new List<InlineKeyboardButton[]>();
-
-                for (int i = 0; i < componentsToButton.Count; i++)
-                {
-                    if (componentsToButton[i].LastName != "")
-                        massivButton.Add(new InlineKeyboardButton[] { InlineKeyboardButton.WithCallbackData(text: $"E-{componentsToButton[i].Key} или {componentsToButton[i].Name} или {componentsToButton[i].LastName}", callbackData: $"{componentsToButton[i].Name}") });
-                    else massivButton.Add(new InlineKeyboardButton[] { InlineKeyboardButton.WithCallbackData(text: $"E-{componentsToButton[i].Key} или {componentsToButton[i].Name}", callbackData: $"{componentsToButton[i].Name}") });
-                    arrayButton[i] = massivButton[i];
-                }
-
-                massivButton.Add(new InlineKeyboardButton[] { InlineKeyboardButton.WithCallbackData(text: $"История моих поисков", callbackData: "история") });
-                arrayButton[componentsToButton.Count] = massivButton[componentsToButton.Count];
-                return arrayButton;
-            }
-
-
-            
-            async void SearchByPhoto(Message message, string text)
-            {
-                components.Clear();
-                notFoundComponents.Clear();
-                text = TextPreparation(text);
-                //text = text.Replace("е", "");
-                string[] words = text.Split(new char[] { ' ', ',', '.', '-', '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-                FindInBase(message, words);
-                InlineKeyboardButton[][] arrayButton = СreatingButtons(components);
-                InlineKeyboardMarkup inlineKeyboard = new(arrayButton);
-
-                userButtons.Remove(message.Chat.FirstName); //удаляет по ключу элемент из словаря
-                userButtons.Add(message.Chat.FirstName, inlineKeyboard);
-
-                await botClient.SendTextMessageAsync(
-                                chatId: message.Chat.Id,
-                                text: $"Найдены компоненты состава.{Environment.NewLine}Для просмотра подробной информации по компоненту нажми на его название ниже.",
-                                replyMarkup: inlineKeyboard,
-                                cancellationToken: token);
-            }
-            async void SearchByText(Message message, string text)
-            {
-                components.Clear();
-                notFoundComponents.Clear();
-                text = TextPreparation(text);
-                string[] words = words = text.Split(new char[] { ',', 'e', 'е'}, StringSplitOptions.RemoveEmptyEntries);
-                string textMessageWithNotFoundComponents = FindInBase(message, words);
-
-                InlineKeyboardButton[][] arrayButton = СreatingButtons(components);
-                InlineKeyboardMarkup inlineKeyboard = new(arrayButton);
-
-                userButtons.Remove(message.Chat.FirstName); //удаляет по ключу элемент из словаря
-                userButtons.Add(message.Chat.FirstName, inlineKeyboard);
-
-                if (components.Count == 0) await botClient.SendTextMessageAsync(
-                                chatId: message.Chat.Id,
-                                text: $"Не найдены компоненты: {textMessageWithNotFoundComponents}" + $"{Environment.NewLine} Давай ещё раз попробуем!",
-                                parseMode: ParseMode.Html,
-                                disableWebPagePreview: false,
-                                replyMarkup: inlineKeyboard,
-                                cancellationToken: token);
-                else if (textMessageWithNotFoundComponents == null)
-                {
-                    await botClient.SendTextMessageAsync(
-                                chatId: message.Chat.Id,
-                                text: $"{Environment.NewLine}Я нашёл 😎" + $"{Environment.NewLine}Для просмотра подробной информации по компоненту нажми на него и я обновлю это сообщение))",
-                                replyMarkup: inlineKeyboard,
-                                cancellationToken: token);
-                }
-                else
-                {
-                    await botClient.SendTextMessageAsync(
-                                chatId: message.Chat.Id,
-                                text: $"Не найдены компоненты: {textMessageWithNotFoundComponents}" + $"{Environment.NewLine}Другие я нашел 😎" + $"{Environment.NewLine}Для просмотра подробной информации по компоненту нажми на него и я обновлю это сообщение))",
-                                replyMarkup: inlineKeyboard,
-                                cancellationToken: token);
-                }
             }
         }
 

@@ -8,6 +8,23 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
+using System;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
+using static BotTelegram.SearchText;
+using System.Configuration;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Exceptions;
+
+using Emgu;
+using Emgu.CV;
+using Emgu.CV.Util;
+using Emgu.CV.Structure;
+using Emgu.CV.OCR;
+using Telegram.Bot.Polling;
+using Telegram.Bot.Types.InputFiles;
+
 
 namespace BotTelegram
 {
@@ -112,5 +129,65 @@ namespace BotTelegram
                 Convert.ToString(dataReader["lastname"]));
             return compNew;
         }
+
+
+
+        static public string FindInBase(Message message, string[] words, List<string> notFoundComponents, List<СomponentsDataBase>  components, Dictionary<string, List<СomponentsDataBase>>? userComponents)
+        {
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].StartsWith("е"))
+                {
+                    words[i] = words[i].Replace("е", "");
+                }
+
+            }
+            foreach (string whoComponent in words)
+            {
+                var withoutSpaceComponent = whoComponent.Trim();
+                var foundСomponentList = DataBase.FindComponentsInBase(withoutSpaceComponent);
+                if (foundСomponentList.Count == 0) notFoundComponents.Add(whoComponent);
+                components.AddRange(foundСomponentList);
+                List<СomponentsDataBase> value = new List<СomponentsDataBase>();
+                bool flagDouble = false;
+                if (!(userComponents.TryGetValue(message.Chat.FirstName, out value)) && foundСomponentList.Count != 0)
+                {
+                    userComponents.Add(message.Chat.FirstName, foundСomponentList);
+
+                }
+                else if (foundСomponentList.Count != 0)
+                {
+                    foreach (СomponentsDataBase userComponent in value)
+                    {
+                        if (foundСomponentList[0].Key == userComponent.Key)
+                        {
+                            flagDouble = true;
+                        }
+
+                    }
+                    if (!flagDouble)
+                    {
+                        foundСomponentList.AddRange(value);
+                        userComponents.Remove(message.Chat.FirstName); //удаляет по ключу элемент из словаря
+                        userComponents.Add(message.Chat.FirstName, foundСomponentList);
+                    }
+
+                }
+
+            }
+
+
+            string textMessageWithNotFoundComponents = null;
+            if (notFoundComponents.Count != 0)
+            {
+                foreach (string notFound in notFoundComponents)
+                {
+                    textMessageWithNotFoundComponents = textMessageWithNotFoundComponents + Environment.NewLine + "❌" + notFound;
+                }
+            }
+            return textMessageWithNotFoundComponents;
+        }
+
+
     }
 }

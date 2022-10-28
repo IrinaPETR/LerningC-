@@ -100,5 +100,6 @@ namespace BotTelegram
             this.InfluenceOnPerson = influenceonperson;
             this.LastName = lastname;
         }
+        // 
     }
 }
